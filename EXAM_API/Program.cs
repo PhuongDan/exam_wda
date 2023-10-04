@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
+var connectionString = builder.Configuration.GetConnectionString("API");
+builder.Services.AddDbContext<EXAM_API.Entities.DataContext>(
+    options => options.UseSqlServer(connectionString)
+    );
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
