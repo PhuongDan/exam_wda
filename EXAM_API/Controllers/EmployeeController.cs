@@ -24,8 +24,20 @@ namespace EXAM_API.Controllers
                 .ToList();
             return View(employees_Tbl);
         }
-        public IActionResult Create()
+        public IActionResult Create(ViewEmployee model)
         {
+            if (ModelState.IsValid)
+            {
+                _context.Employees_Tbl.Add(new Employee_Tbl
+                {
+                    name_employee = model.name_employee,
+                    
+                    rank = model.rank,
+                    code_department = model.code_department                
+                });
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
             List<Department_Tbl> departments_Tbl = _context.Departments_Tbl.ToList();
 
             var selectDepartments_Tbl = new List<SelectListItem>();
@@ -33,7 +45,7 @@ namespace EXAM_API.Controllers
             {
                 selectDepartments_Tbl.Add(new SelectListItem { Text = d.name_department, Value = d.code_department.ToString() });
             }
-            ViewBag.categories = selectDepartments_Tbl;
+            ViewBag.departments_Tbl = selectDepartments_Tbl;
 
 
 
